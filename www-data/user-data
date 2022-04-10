@@ -1,0 +1,50 @@
+version: 1
+locale: de_DE
+keyboard:
+  layout: de
+  variant: nodeadkeys
+identity:
+  hostname: PleaseChangeMe.test.flgl.tech
+  username: ansible
+  password: $6$eish3Eefah4M$EWFxwUwxQorhQPGYi3fOwNt8usA5xZY2WG/MvX29fz7AAwmO3u01xUG5LyAbNCqh6Oe.399oXu2I5gcPsVMgA.
+ssh:
+  install-server: yes
+  authorized-keys:
+    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOILVdZdgxXq+X7Lv7Gz617aPP9H8tqaOpJvtmITKQUS ansible key for automatic deployments
+  allow-pw: no
+packages:
+  - htop
+  - screen
+  - neovim
+storage:
+  config:
+    - type: disk
+      id: s0
+      match:
+        size: smallest
+      wipe: superblock
+    - type: disk
+      id: data0
+      match:
+        size: largest
+    - type: partiton
+      id: s0-part1
+      number: 1
+      size: 8GB
+      device: s0
+      flag: boot
+      name: boot_partition
+    - type: partition
+      id: s0-part2
+      number: 2
+      device: s0
+    - type: lvm_volgroup
+      id: volgroupSystem
+      name: vg-system
+      devices:
+        - s0-part2
+    - type: lvm_volgroup
+      id: volgroupData
+      name: vg-data
+      devices:
+        - data0
