@@ -1,4 +1,11 @@
 # ubuntu-autoinstall
+
+# Caution
+*__Do not use any configuration or base file as is. I will use weak and known passwords in this reqository for the sake of simplicity.__*
+
+*__IT IS HIGHLY RECOMMENDED THAT YOU CREATE YOUR OWN PASSWORDS AND USE YOUR OWN SSH KEYS!__*
+
+# Background
 I want to learn how to perform a automatic installation of an Ubuntu Server.
 
 There is a slight difference to how it is done with a Debian system The differences are laid out [here](https://ubuntu.com/server/docs/install/autoinstall) in the quickstart guide.
@@ -97,4 +104,11 @@ late-commands:
     - sed -ie 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=30/' /target/etc/default/grub
 error-commands:
     - tar c /var/log/installer | nc 192.168.0.1 1000
+```
+
+# Some useful commands
+## Generating a crypted+salted password
+This is a example
+```
+echo 'SuperSecretPassowrd' | openssl passwd -6 -salt "$(pwgen -1 12)" -stdin
 ```
