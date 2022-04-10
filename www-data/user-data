@@ -34,6 +34,15 @@ storage:
       device: s0
       flag: boot
       name: boot_partition
+    - type: format
+      id: s0-part1-boot
+      fstype: ext4
+      volume: s0-part1
+    - type: mount
+      id: s0-part1-boot-mount
+      fstype: ext4
+      path: /boot/
+      device: s0-part1-boot
     - type: partition
       id: s0-part2
       number: 2
@@ -43,8 +52,35 @@ storage:
       name: vg-system
       devices:
         - s0-part2
+    - type: lvm_partition
+      id: volgroupSystemRoot
+      name: lv-root
+      volgroup: vg-system
+    - type: format
+      id: root_partition
+      fstype: ext4
+      volume: volgroupSystemRoot
+    - type: mount
+      id: volgroupSystemRoot-mount
+      fstype: ext4
+      path: /
+      device: root_partition
     - type: lvm_volgroup
       id: volgroupData
       name: vg-data
       devices:
         - data0
+    - type: lvm_partition
+      id: volgroupDataAll
+      name: lv-data
+      volgroup: vg-data
+    - type: format
+      id: data_partition
+      fstype: ext4
+      volume: volgroupDataAll
+    - type: mount
+      id: volgroupDataAll-mount
+      fstype: ext4
+      path: /srv
+      device: data_partition
+      options: 'noatime,errors=remount-ro'
